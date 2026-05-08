@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HỆ THỐNG LẤY KEY ONLINE</title>
+    <script src="cloudflare.com"></script>
+</head>
+<body style="text-align: center; font-family: Arial; padding-top: 50px;">
+    <h2>MÃ KEY CỦA BẠN HÔM NAY</h2>
+    <h1 id="key_display" style="color: red; background: #eee; padding: 10px; display: inline-block;">ĐANG TẠO KEY...</h1>
+    <p>Hãy sao chép mã trên và dán lại vào Bot Telegram.</p>
+
+    <script>
+        // Lấy ID người dùng từ Link (Ví dụ khách vượt link xong web nhận được link dạng: web.com)
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('uid') || "0";
+        
+        // CẤU HÌNH: Chuỗi mật khẩu này PHẢI GIỐNG HỆT chuỗi SECRET_PASSWORD trong file bot.py
+        const SECRET_PASSWORD = "Minheerr123kkk110620";
+        
+        // Lấy ngày hiện tại định dạng YYYY-MM-DD
+        const ngay = new Date().toISOString().slice(0, 10);
+        
+        // Thuật toán băm MD5 giống hệt Python
+        const chuoiGoc = SECRET_PASSWORD + "_" + userId + "_" + ngay;
+        const hash = CryptoJS.MD5(chuoiGoc).toString().substring(0, 10).toUpperCase();
+        
+        // Hiển thị ra màn hình
+        document.getElementById("key_display").innerText = "M4KEY_" + hash;
+    </script>
+</body>
+</html>
