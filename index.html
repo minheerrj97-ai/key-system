@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Lấy Key</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f4f4f9; }
+        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block; max-width: 400px; width: 100%; }
+        input { width: 90%; padding: 10px; margin: 10px 0; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; text-align: center; }
+        .key-box { font-size: 20px; font-weight: bold; color: #e74c3c; background: #fdf2f2; border: 2px dashed #e74c3c; padding: 10px; margin: 20px 0; border-radius: 5px; word-break: break-all; display: none; }
+        button { background: #2ecc71; color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; width: 95%; font-weight: bold; margin-top: 5px; }
+        button:hover { background: #27ae60; }
+        .btn-copy { background: #3498db; display: none; margin-top: 10px; }
+        .btn-copy:hover { background: #2980b9; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>🎉 VƯỢT LINK THÀNH CÔNG!</h2>
+    <p>Nhập mã ID Telegram của bạn vào bên dưới để tạo Key kích hoạt:</p>
+    
+    <input type="number" id="userIdInput" placeholder="Nhập ID Telegram của bạn (Ví dụ: 12345678)">
+    <button onclick="processGenerateKey()">🔑 BẤM TẠO MÃ KEY</button>
+
+    <div class="key-box" id="keyDisplay"></div>
+    <button class="btn-copy" id="copyBtn" onclick="copyKey()">⚠ Sao Chép Mã Key</button>
+    
+    <p style="margin-top: 20px; font-size: 13px; color: #555; text-align: left; line-height: 1.5;">
+        👉 Sau khi sao chép mã Key, hãy quay lại Bot Telegram và gửi tin nhắn theo đúng cú pháp:<br>
+        <code style="background: #eee; padding: 2px 6px; border-radius: 3px; font-weight: bold; display: block; margin-top: 5px; text-align: center;">/key MÃ_SỐ_VỪA_TAO</code>
+    </p>
+</div>
+
+<script>
+    function processGenerateKey() {
+        const uid = document.getElementById('userIdInput').value.trim();
+        
+        if (!uid) {
+            alert("❌ Vui lòng nhập ID Telegram của bạn!");
+            return;
+        }
+
+        // Thuật toán đồng bộ mã hóa theo ngày
+        const today = new Date().toISOString().slice(0, 10);
+        const salt = "M4_SECRET_" + today;
+        const generatedKey = btoa(uid + "_" + salt).replace(/=/g, "").toUpperCase();
+
+        // Hiển thị kết quả ra màn hình
+        const keyBox = document.getElementById('keyDisplay');
+        const copyBtn = document.getElementById('copyBtn');
+        
+        keyBox.innerText = generatedKey;
+        keyBox.style.display = "block";
+        copyBtn.style.display = "block";
+    }
+
+    function copyKey() {
+        const keyText = document.getElementById('keyDisplay').innerText;
+        navigator.clipboard.writeText(keyText);
+        alert("✅ Đã sao chép mã Key thành công!");
+    }
+</script>
+</body>
+</html>
